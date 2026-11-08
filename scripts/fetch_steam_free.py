@@ -10,7 +10,7 @@ from datetime import datetime, timezone
 
 URL = (
     "https://store.steampowered.com/search/"
-    "?specials=1&maxprice=free&cc=cn&l=zh&sort_by=Price_ASC"
+    "?specials=1&maxprice=free&category1=998&cc=cn&l=zh&sort_by=Price_ASC"
 )
 UA = (
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -47,7 +47,7 @@ def parse(html: str):
         m_img = re.search(r'<img\s+src="([^"]+)"', row)
         image = m_img.group(1) if m_img else ""
 
-        m_pct = re.search(r'class="discount_pct">\s*-?(\d+)%', row)
+        m_pct = re.search(r'class="discount_pct"[^>]*>\s*-?(\d+)%', row)
         pct = int(m_pct.group(1)) if m_pct else 0
         if pct != 100:
             continue
