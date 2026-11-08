@@ -79,7 +79,8 @@ def main():
     items = parse(html)
     if len(items) == 0:
         print("DEBUG html_len=", len(html))
-        print(html[:1200])
+        with open("data/debug.html", "w", encoding="utf-8") as f:
+            f.write(html)
 
     data = {
         "updated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
