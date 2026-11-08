@@ -30,7 +30,6 @@ def fetch() -> str:
 
 def parse(html: str):
     items = []
-    # 每一行以 data-ds-appid="<appid>" 开头，到下一个 appid 之前都属于这一行
     chunks = re.split(r'data-ds-appid="', html)[1:]
     for ch in chunks:
         appid = ch.split('"', 1)[0].strip()
@@ -61,7 +60,6 @@ def parse(html: str):
             "discount": pct,
         })
 
-    # 去重（同一 appid 可能命中多个版本）
     seen, out = set(), []
     for it in items:
         if it["appid"] in seen:
@@ -79,6 +77,10 @@ def main():
         sys.exit(1)
 
     items = parse(html)
+    if len(items) == 0:
+        print("DEBUG html_len=", len(html))
+        print(html[:1200])
+
     data = {
         "updated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "source": URL,
